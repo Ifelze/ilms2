@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"> <![endif]-->
+<!--[if !IE]><!--> <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"> <!--<![endif]-->
+<head data-th-fragment="head">
+	<title>Shop UI | Unify - Responsive Website Template</title>
+
+	<!-- Meta -->
+	<meta charset="utf-8"></meta>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+	<meta name="description" content=""></meta>
+	<meta name="author" content=""></meta>
+
+	<!-- Favicon -->
+	<link rel="shortcut icon" href="favicon.ico"></link>
+
+	<!-- Web Fonts -->
+	<link rel='stylesheet' type='text/css' href='//fonts.googleapis.com/css?family=Open+Sans:400,300,600,800&amp;subset=cyrillic,latin'></link>
+
+	<!-- CSS Global Compulsory -->
+	<link rel="stylesheet" href="assets/plugins/bootstrap/css/bootstrap.min.css"></link>
+	<link rel="stylesheet" href="assets/css/shop.style.css"></link>
+
+	<!-- CSS Header and Footer -->
+	<link rel="stylesheet" href="assets/css/headers/header-v5.css"></link>
+	<link rel="stylesheet" href="assets/css/footers/footer-v4.css"></link>
+
+	<!-- CSS Implementing Plugins -->
+	<link rel="stylesheet" href="assets/plugins/animate.css"></link>
+	<link rel="stylesheet" href="assets/plugins/line-icons/line-icons.css"></link>
+	<link rel="stylesheet" href="assets/plugins/font-awesome/css/font-awesome.min.css"></link>
+	<link rel="stylesheet" href="assets/plugins/scrollbar/css/jquery.mCustomScrollbar.css"></link>
+	<link rel="stylesheet" href="assets/plugins/owl-carousel/owl-carousel/owl.carousel.css"></link>
+	<link rel="stylesheet" href="assets/plugins/revolution-slider/rs-plugin/css/settings.css"></link>
+	
+	<!-- CSS Page Style -->
+	<link rel="stylesheet" href="assets/css/pages/log-reg-v3.css"></link>
+
+	<!-- Style Switcher -->
+	<link rel="stylesheet" href="assets/css/plugins/style-switcher.css"></link>
+	
+	<!-- CSS Theme -->
+	<link rel="stylesheet" href="assets/css/theme-colors/default.css" id="style_color"></link>
+
+	<!-- CSS Customization -->
+	<link rel="stylesheet" href="assets/css/custom.css"></link>
+</head>
+
+<body class="header-fixed">
+
+	<div class="wrapper">
+		<!--=== Header v5 ===-->
+		<div class="header-v5 header-static" data-th-fragment="headerv5">
+			<!-- Topbar v3 -->
+			<div class="topbar-v3">
+				<div class="search-open">
+					<div class="container">
+						<input type="text" class="form-control" placeholder="Search"></input>
+						<div class="search-close"><i class="icon-close"></i></div>
+					</div>
+				</div>
+
+				<div class="container">
+					<div class="row">
+						<div class="col-sm-6">
+							<!-- Topbar Navigation -->
+							<ul class="left-topbar">
+								<li>
+									<a>Currency (INR)</a>
+									<ul class="currency">
+										<li class="active">
+											<a href="#">INR<i class="fa fa-check"></i></a>
+										</li>
+										<li><a href="#">USD</a></li>
+									</ul>
+								</li>
+								<li>
+									<a>Language (EN)</a>
+									<ul class="language">
+										<li class="active">
+											<a href="#">English (EN)<i class="fa fa-check"></i></a>
+										</li>
+										<li><a href="#">Hindi (HI)</a></li>
+										<li><a href="#">Telugu (TEL)</a></li>
+									</ul>
+								</li>
+							</ul><!--/end left-topbar-->
+						</div>
+						<div class="col-sm-6">
+							<ul class="list-inline right-topbar pull-right">
+								<li><a href="my-account.html">Account</a></li>
+								<li><a href="new-loan.html">New Loan | </a></li>
+								<li data-sec-authorize="!isAuthenticated()">
+									Guest | 
+									<a href="login.html">Login</a> | 
+									<a href="register.html">Register</a>
+								</li>
+								<li data-sec-authorize="isAuthenticated()">
+									<span data-sec-authentication="name"></span> | 
+									<span sec:authentication="principal.authorities"></span> | 
+								</li>
+								<li data-sec-authorize="isAuthenticated()">
+									<form data-th-action="@{/logout}" method="post">
+				                      <input class="btn-u"  type="submit" value="Log out" />
+				                  </form>
+								</li>
+								<li><i class="search fa fa-search search-button"></i></li>
+							</ul>
+						</div>
+					</div>
+				</div><!--/container-->
+			</div>
+			<!-- End Topbar v3 -->
+
+			<!-- Navbar -->
+			<div class="navbar navbar-default mega-menu" role="navigation">
+				<div class="container">
+					<!-- Brand and toggle get grouped for better mobile display -->
+					<div class="navbar-header">
+						<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+							<span class="sr-only">Toggle navigation</span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+						</button>
+						<a class="navbar-brand" href="index.html">
+							<img id="logo-header" src="assets/img/logo.png" alt="Logo"></img>
+						</a>
+					</div>
+
+					<!-- Shopping Cart -->
+					<div class="shop-badge badge-icons pull-right">
+						<a href="#"><i class="fa fa-shopping-cart"></i></a>
+						<span class="badge badge-sea rounded-x">3</span>
+						<div class="badge-open">
+							<ul class="list-unstyled mCustomScrollbar" data-mcs-theme="minimal-dark">
+								<li>
+									<img src="assets/img/thumb/05.jpg" alt=""></img>
+									<button type="button" class="close">×</button>
+									<div class="overflow-h">
+										<span>Black Glasses</span>
+										<small>1 x $400.00</small>
+									</div>
+								</li>
+								<li>
+									<img src="assets/img/thumb/02.jpg" alt=""></img>
+									<button type="button" class="close">×</button>
+									<div class="overflow-h">
+										<span>Black Glasses</span>
+										<small>1 x $400.00</small>
+									</div>
+								</li>
+								<li>
+									<img src="assets/img/thumb/03.jpg" alt=""></img>
+									<button type="button" class="close">×</button>
+									<div class="overflow-h">
+										<span>Black Glasses</span>
+										<small>1 x $400.00</small>
+									</div>
+								</li>
+							</ul>
+							<div class="subtotal">
+								<div class="overflow-h margin-bottom-10">
+									<span>Subtotal</span>
+									<span class="pull-right subtotal-cost">$1200.00</span>
+								</div>
+								<div class="row">
+									<div class="col-xs-6">
+										<a href="shop-ui-inner.html" class="btn-u btn-brd btn-brd-hover btn-u-sea-shop btn-block">View Cart</a>
+									</div>
+									<div class="col-xs-6">
+										<a href="shop-ui-add-to-cart.html" class="btn-u btn-u-sea-shop btn-block">Checkout</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- End Shopping Cart -->
+
+					<!-- Collect the nav links, forms, and other content for toggling -->
+					<div class="collapse navbar-collapse navbar-responsive-collapse">
+						<!-- Nav Menu -->
+						<ul class="nav navbar-nav">
+							<!-- Home -->
+							<li class="dropdown active">
+								<a href="javascript:void(0);" class="dropdown-toggle" data-hover="dropdown" data-toggle="dropdown">
+									Home
+								</a>
+								<ul class="dropdown-menu">
+									<li class="active"><a href="dashboard.html">Dash Board</a></li>
+									<li><a href="configure-home.html">Configure Home Page</a></li>
+								</ul>
+							</li>
+							<!-- End Home -->
+
+							<!-- My Company -->
+							<li class="dropdown">
+								<a href="javascript:void(0);" class="dropdown-toggle" data-hover="dropdown" data-toggle="dropdown">
+									My Company
+								</a>
+								<ul class="dropdown-menu">
+									<li><a href="company-profile.html">Profile</a></li>
+									<li class="dropdown-submenu">
+										<a href="javascript:void(0);">Staff</a>
+										<ul class="dropdown-menu">
+											<li><a href="create-staff.html">Create </a></li>
+											<li><a href="show-all-staff.html">Show All</a></li>
+											<li><a href="setup-staff.html">Setup Staff</a></li>
+										</ul>
+									</li>
+								</ul>
+							</li>
+							<!-- My Company -->
+							
+							<!-- My Customers -->
+							<li class="dropdown">
+								<a href="javascript:void(0);" class="dropdown-toggle" data-hover="dropdown" data-toggle="dropdown">
+									My Customers
+								</a>
+								<ul class="dropdown-menu">
+									<li class="dropdown-submenu">
+										<a href="javascript:void(0);">Consumer Customers</a>
+										<ul class="dropdown-menu">
+											<li><a href="new-consumer.html">New Customer</a></li>
+											<li><a href="show-all-consumers.html">Show All Customers</a></li>
+											<li><a href="setup-consumer.html">Setup Customer</a></li>
+										</ul>
+									</li>
+									<li class="dropdown-submenu">
+										<a href="javascript:void(0);">Business Customers</a>
+										<ul class="dropdown-menu">
+											<li><a href="new-business-customer.html">New Customer</a></li>
+											<li><a href="show-all-business-customers.html">Show All Customers</a></li>
+											<li><a href="setup-business-customer.html">Setup Customer</a></li>
+										</ul>
+									</li>
+								</ul>
+							</li>
+							<!-- My Customers -->
+							
+							<!-- Loan -->
+							<li class="dropdown mega-menu-fullwidth">
+								<a href="javascript:void(0);" class="dropdown-toggle" data-hover="dropdown" data-toggle="dropdown">
+									About Loan
+								</a>
+								<ul class="dropdown-menu">
+									<li>
+										<div class="mega-menu-content">
+											<div class="container">
+												<div class="row">
+													<div class="col-md-2 col-sm-6">
+														<h3 class="mega-menu-heading">Basics</h3>
+														<ul class="list-unstyled style-list">
+															<li><a href="what-is-loan.html">What is Loan</a></li>
+															<li><a href="types-of-loan.html">Types Of Loan</a></li>
+															<li><a href="credit-check.html">Credit Check</a></li>
+															<li><a href="loan-payments.html">Loan Payments</a><span class="label label-danger-shop">New</span></li>
+														</ul>
+														<h3 class="mega-menu-heading">Documents</h3>
+														<ul class="list-unstyled style-list">
+															<li><a href="mandatory-docs.html">Mandatory</a></li>
+															<li><a href="optional-docs.html">Optional</a></li>
+														</ul>
+													</div>
+
+													<div class="col-md-2 col-sm-6">
+														<h3 class="mega-menu-heading">Borrowers</h3>
+														<ul class="list-unstyled style-list">
+															<li><a href="#">Individuals</a></li>
+															<li><a href="#">Business Customers</a></li>
+														</ul>
+													</div>
+
+													<div class="col-md-2 col-sm-6">
+														<h3 class="mega-menu-heading">Mixed</h3>
+														<ul class="list-unstyled style-list">
+															<li><a href="#">New in</a></li>
+															<li><a href="#">Coats &amp; Jackets</a> <span class="label label-danger-shop">New</span></li>
+															<li><a href="#">Jeans</a></li>
+															<li><a href="#">Dresses</a></li>
+															<li><a href="#">Shorts</a></li>
+															<li><a href="#">Skirts</a></li>
+															<li><a href="#">T-shirts</a></li>
+															<li><a href="#">Boots</a></li>
+															<li><a href="#">Flats</a></li>
+															<li><a href="#">Heels</a></li>
+															<li><a href="#">Sandals</a></li>
+															<li><a href="#">Sports</a></li>
+															<li><a href="#">Socks</a></li>
+															<li><a href="#">Tights</a></li>
+														</ul>
+													</div>
+
+													<div class="col-md-2 col-sm-6">
+														<h3 class="mega-menu-heading">Clothe</h3>
+														<ul class="list-unstyled style-list">
+															<li><a href="#">New in</a></li>
+															<li><a href="#">Coats &amp; Jackets</a></li>
+															<li><a href="#">Jeans</a></li>
+															<li><a href="#">Dresses</a></li>
+															<li><a href="#">Shorts</a> <span class="label label-danger-shop">New</span></li>
+															<li><a href="#">Skirts</a></li>
+															<li><a href="#">T-shirts</a></li>
+														</ul>
+														<h3 class="mega-menu-heading">Shoes</h3>
+														<ul class="list-unstyled style-list">
+															<li><a href="#">Boots</a></li>
+															<li><a href="#">Flats</a></li>
+															<li><a href="#">Heels</a></li>
+															<li><a href="#">Sandals</a></li>
+															<li><a href="#">Sports</a></li>
+														</ul>
+													</div>
+
+													<div class="col-md-2 col-sm-6">
+														<h3 class="mega-menu-heading">Accessories</h3>
+														<ul class="list-unstyled style-list">
+															<li><a href="#">All accessories</a></li>
+															<li><a href="#">Bags &amp; Purses</a></li>
+															<li><a href="#">Scarvs &amp; Hats</a></li>
+															<li><a href="#">Jewellery</a></li>
+															<li><a href="#">Fragrance &amp; Beauty</a></li>
+														</ul>
+														<h3 class="mega-menu-heading">Lingerie</h3>
+														<ul class="list-unstyled style-list">
+															<li><a href="#">Linger</a> <span class="label label-danger-shop">New</span></li>
+															<li><a href="#">Slippers</a></li>
+														</ul>
+														<h3 class="mega-menu-heading">Nightwear</h3>
+														<ul class="list-unstyled style-list">
+															<li><a href="#">Nightwear</a></li>
+															<li><a href="#">Socks</a></li>
+															<li><a href="#">Tights</a></li>
+														</ul>
+													</div>
+
+													<div class="col-md-2 col-sm-6">
+														<h3 class="mega-menu-heading">Mixed</h3>
+														<ul class="list-unstyled style-list">
+															<li><a href="#">New in</a></li>
+															<li><a href="#">Coats &amp; Jackets</a> <span class="label label-danger-shop">New</span></li>
+															<li><a href="#">Jeans</a></li>
+															<li><a href="#">Dresses</a></li>
+															<li><a href="#">Shorts</a></li>
+															<li><a href="#">Skirts</a></li>
+															<li><a href="#">T-shirts</a></li>
+															<li><a href="#">Boots</a></li>
+															<li><a href="#">Flats</a></li>
+															<li><a href="#">Heels</a></li>
+															<li><a href="#">Sandals</a></li>
+															<li><a href="#">Sports</a></li>
+															<li><a href="#">Socks</a></li>
+															<li><a href="#">Tights</a> <span class="label label-danger-shop">New</span></li>
+														</ul>
+													</div>
+												</div><!--/end row-->
+											</div><!--/end container-->
+										</div><!--/end mega menu content-->
+									</li>
+								</ul><!--/end dropdown-menu-->
+							</li>
+							<!-- End Books -->
+
+							<!-- Settings -->
+							<li class="dropdown">
+								<a href="javascript:void(0);" class="dropdown-toggle" data-hover="dropdown" data-toggle="dropdown" data-delay="1000">
+									Settings
+								</a>
+								<ul class="dropdown-menu">
+									<li><a href="#">Jeans</a></li>
+									<li><a href="#">T-shirts</a></li>
+									<li><a href="#">Shorts</a></li>
+								</ul>
+							</li>
+							<!-- End Settings -->
+
+							<!-- Main Demo -->
+							<li><a href="../index.html">Main Demo</a></li>
+							<!-- Main Demo -->
+						</ul>
+						<!-- End Nav Menu -->
+					</div>
+				</div>
+			</div>
+			<!-- End Navbar -->
+		</div>
+		<!--=== End Header v5 ===-->
+		
+	<!--=== Shop Subscribe ===-->
+	<div class="shop-subscribe" data-th-fragment="subscribe">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-8 md-margin-bottom-20">
+					<h2>subscribe to our weekly <strong>newsletter</strong></h2>
+				</div>
+				<div class="col-md-4">
+					<div class="input-group">
+						<input type="text" class="form-control" placeholder="Email your email..."></input>
+						<span class="input-group-btn">
+							<button class="btn" type="button"><i class="fa fa-envelope-o"></i></button>
+						</span>
+					</div>
+				</div>
+			</div>
+		</div><!--/end container-->
+	</div>
+	<!--=== End Shop Subscribe ===-->
+	
+	<!--=== Footer v4 ===-->
+	<div class="footer-v4" data-th-fragment="footerv4">
+		<div class="footer">
+			<div class="container">
+				<div class="row">
+					<!-- About -->
+					<div class="col-md-4 md-margin-bottom-40">
+						<a href="index.html"><img class="footer-logo" src="assets/img/logo-2.png" alt=""></img></a>
+						<p>About Unify dolor sit amet, consectetur adipiscing elit. Maecenas eget nisl id libero tincidunt sodales.</p>
+						<br/>
+						<ul class="list-unstyled address-list margin-bottom-20">
+							<li><i class="fa fa-angle-right"></i>California, US, Lorem Lis Street, Orange, 25</li>
+							<li><i class="fa fa-angle-right"></i>Phone: 800 123 3456</li>
+							<li><i class="fa fa-angle-right"></i>Fax: 800 123 3456</li>
+							<li><i class="fa fa-angle-right"></i>Email: info@anybiz.co</li>
+						</ul>
+
+						<ul class="list-inline shop-social">
+							<li><a href="#"><i class="fb rounded-md fa fa-facebook"></i></a></li>
+							<li><a href="#"><i class="tw rounded-md fa fa-twitter"></i></a></li>
+							<li><a href="#"><i class="gp rounded-md fa fa-google-plus"></i></a></li>
+							<li><a href="#"><i class="yt rounded-md fa fa-youtube"></i></a></li>
+						</ul>
+					</div>
+					<!-- End About -->
+
+					<!-- Simple List -->
+					<div class="col-md-2 col-sm-3">
+						<div class="row">
+							<div class="col-sm-12 col-xs-6">
+								<h2 class="thumb-headline">Secciones</h2>
+								<ul class="list-unstyled simple-list margin-bottom-20">
+									<li><a href="#">Ultima Hora</a></li>
+									<li><a href="#">Exclusiva</a></li>
+									<li><a href="#">Documentos </a></li>
+									<li><a href="#">Francisco papa</a></li>
+									<li>...</li>
+								</ul>
+							</div>
+
+							<div class="col-sm-12 col-xs-6">
+								<h2 class="thumb-headline">Temas</h2>
+								<ul class="list-unstyled simple-list">
+									<li><a href="#">Ultima Hora</a></li>
+									<li><a href="#">Exclusiva</a></li>
+									<li><a href="#">Documentos </a></li>
+									<li><a href="#">Francisco papa</a></li>
+									<li>...</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-md-2 col-sm-3">
+						<div class="row">
+							<div class="col-sm-12 col-xs-6">
+								<h2 class="thumb-headline">Utilidades</h2>
+								<ul class="list-unstyled simple-list margin-bottom-20">
+									<li><a href="#">Ultima Hora</a></li>
+									<li><a href="#">Exclusiva</a></li>
+									<li><a href="#">Documentos </a></li>
+									<li>...</li>
+								</ul>
+							</div>
+
+							<div class="col-sm-12 col-xs-6">
+								<h2 class="thumb-headline">Documentos</h2>
+								<ul class="list-unstyled simple-list">
+									<li><a href="#">Ultima Hora</a></li>
+									<li><a href="#">Exclusiva</a></li>
+									<li><a href="#">Documentos </a></li>
+									<li><a href="#">Francisco papa</a></li>
+									<li>...</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-md-2 col-sm-3">
+						<div class="row">
+							<div class="col-sm-12 col-xs-6">
+								<h2 class="thumb-headline">Publicidad</h2>
+								<ul class="list-unstyled simple-list margin-bottom-20">
+									<li><a href="#">Ultima Hora</a></li>
+									<li><a href="#">Exclusiva</a></li>
+									<li><a href="#">Documentos </a></li>
+									<li><a href="#">Francisco papa</a></li>
+									<li>...</li>
+								</ul>
+							</div>
+
+							<div class="col-sm-12 col-xs-6">
+								<h2 class="thumb-headline">Contacto</h2>
+								<ul class="list-unstyled simple-list">
+									<li><a href="#">Ultima Hora</a></li>
+									<li><a href="#">Exclusiva</a></li>
+									<li><a href="#">Documentos </a></li>
+									<li><a href="#">Francisco papa</a></li>
+									<li>...</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-md-2 col-sm-3">
+						<div class="row">
+							<div class="col-sm-12 col-xs-6">
+								<h2 class="thumb-headline">Utilidades</h2>
+								<ul class="list-unstyled simple-list margin-bottom-20">
+									<li><a href="#">Ultima Hora</a></li>
+									<li><a href="#">Exclusiva</a></li>
+									<li>...</li>
+								</ul>
+							</div>
+
+							<div class="col-sm-12 col-xs-6">
+								<h2 class="thumb-headline">Documentos</h2>
+								<ul class="list-unstyled simple-list">
+									<li><a href="#">Ultima Hora</a></li>
+									<li><a href="#">Exclusiva</a></li>
+									<li>...</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<!-- End Simple List -->
+				</div><!--/end row-->
+			</div><!--/end continer-->
+		</div><!--/footer-->
+
+		<div class="copyright">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-6">
+						<p>
+							2014 &copy; Unify. ALL Rights Reserved.
+							<a target="_blank" href="https://twitter.com/htmlstream">Htmlstream</a> | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a>
+						</p>
+					</div>
+					<div class="col-md-6">
+						<ul class="list-inline sponsors-icons pull-right">
+							<li><i class="fa fa-cc-paypal"></i></li>
+							<li><i class="fa fa-cc-visa"></i></li>
+							<li><i class="fa fa-cc-mastercard"></i></li>
+							<li><i class="fa fa-cc-discover"></i></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div><!--/copyright-->
+	</div>
+	<!--=== End Footer v4 ===-->
+</div><!--/wrapper-->
+
+<!-- Wait Block -->
+<div class="g-popup-wrapper" data-th-fragment="waitblock">
+	<div class="g-popup g-popup--discount2">
+		<div class="g-popup--discount2-message">
+			<h3>Want 10% Off?</h3>
+			<h4>You Are Fabulous!</h4>
+			<p>Get 10% Off Your Next Purchase! Just Type Email Below!</p>
+
+			<form action="#" class="sky-form">
+				<label class="input">
+					<input type="email" placeholder="Email" class="form-control"></input>
+				</label>
+				<label class="input">
+					<button class="btn btn-default" type="button">Subscribe</button>
+				</label>
+			</form>
+		</div>
+		<img src="assets/img/blog/26.jpg" alt="ALT" width="270"></img>
+		<a href="javascript:void(0);" class="g-popup__close g-popup--discount2__close"><span class="icon-close" aria-hidden="true"></span></a>
+	</div>
+</div>
+<!-- End Wait Block -->
+
+<!-- JS Global Compulsory -->
+<script src="assets/plugins/jquery/jquery.min.js"></script>
+<script src="assets/plugins/jquery/jquery-migrate.min.js"></script>
+<script src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+<!-- JS Implementing Plugins -->
+<script src="assets/plugins/back-to-top.js"></script>
+<script src="assets/plugins/smoothScroll.js"></script>
+<script src="assets/plugins/jquery.parallax.js"></script>
+<script src="assets/plugins/owl-carousel/owl-carousel/owl.carousel.js"></script>
+<script src="assets/plugins/scrollbar/js/jquery.mCustomScrollbar.concat.min.js"></script>
+<script src="assets/plugins/revolution-slider/rs-plugin/js/jquery.themepunch.tools.min.js"></script>
+<script src="assets/plugins/revolution-slider/rs-plugin/js/jquery.themepunch.revolution.min.js"></script>
+<!-- JS Customization -->
+<script src="assets/js/custom.js"></script>
+<!-- JS Page Level -->
+<script src="assets/js/shop.app.js"></script>
+<script src="assets/js/plugins/owl-carousel.js"></script>
+<script src="assets/js/plugins/revolution-slider.js"></script>
+<script src="assets/js/plugins/style-switcher.js"></script>
+<script>
+	jQuery(document).ready(function() {
+		App.init();
+		App.initScrollBar();
+		App.initParallaxBg();
+		OwlCarousel.initOwlCarousel();
+		RevolutionSlider.initRSfullWidth();
+		StyleSwitcher.initStyleSwitcher();
+	});
+</script>
+<!--[if lt IE 9]>
+	<script src="assets/plugins/respond.js"></script>
+	<script src="assets/plugins/html5shiv.js"></script>
+	<script src="assets/js/plugins/placeholder-IE-fixes.js"></script>
+	<![endif]-->
+
+</body>
+</html>
