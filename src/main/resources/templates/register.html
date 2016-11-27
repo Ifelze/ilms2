@@ -2,14 +2,14 @@
 <!--[if IE 8]> <html lang="en" class="ie8" xmlns:th="http://www.thymeleaf.org"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9" xmlns:th="http://www.thymeleaf.org"> <![endif]-->
 <!--[if !IE]><!--> <html lang="en" xmlns:th="http://www.thymeleaf.org"> <!--<![endif]-->
-<head data-th-replace="common :: head">
+<head th:replace="common :: head">
 </head>
 
 <body class="header-fixed">
 
 	<div class="wrapper">
 		<!--=== Header v5 ===-->
-		<div data-th-replace="common :: headerv5">
+		<div th:replace="common :: headerv5">
 		</div>
 		<!--=== End Header v5 ===-->
 
@@ -60,39 +60,41 @@
 					</div>
 
 					<div class="col-md-5">
-						<form id="sky-form4" class="log-reg-block sky-form" method="post" data-th-action="@{/register}" data-th-object="${registerCommand}">
+						<form id="sky-form4" class="log-reg-block sky-form" method="post" th:action="@{/register}" th:object="${registerCommand}">
 							<h2>Create New Account</h2>
-
+							<ul th:if="${#fields.hasErrors('*')}">
+							  <li th:each="err : ${#fields.errors('*')}" th:text="${err}">Input is incorrect</li>
+							</ul>
 							<div class="login-input reg-input">
 								<div class="row">
 									<div class="col-sm-6">
 										<section>
 											<label class="input">
-												<input type="text" name="firstName" placeholder="First name" class="form-control"></input>
+												<input type="text" th:field="*{firstName}" placeholder="First name" class="form-control"></input>
 											</label>
 										</section>
 									</div>
 									<div class="col-sm-6">
 										<section>
 											<label class="input">
-												<input type="text" name="lastName" placeholder="Last name" class="form-control"></input>
+												<input type="text" th:field="*{lastName}" placeholder="Last name" class="form-control"></input>
 											</label>
 										</section>
 									</div>
 								</div>
 								<section>
 									<label class="input">
-										<input type="text" name="login" placeholder="Username" class="form-control"></input>
+										<input type="text" th:field="*{login}" placeholder="Username" class="form-control"></input>
 									</label>
 								</section>
 								<section>
 									<label class="input">
-										<input type="email" name="email" placeholder="Email address" class="form-control"></input>
+										<input type="email" th:field="*{email}" placeholder="Email address" class="form-control"></input>
 									</label>
 								</section>
 								<section>
 									<label class="input">
-										<input type="password" name="password" placeholder="Password" id="password" class="form-control"></input>
+										<input type="password" th:field="*{password}" placeholder="Password" id="password" class="form-control"></input>
 									</label>
 								</section>
 							</div>
@@ -119,12 +121,12 @@
 		<!--=== End Register ===-->
 
 		<!--=== Shop Subscribe ===-->
-		<div data-th-replace="common :: subscribe">
+		<div th:replace="common :: subscribe">
 		</div>
 		<!--=== End Shop Subscribe ===-->
 
 		<!--=== Footer v4 ===-->
-		<div data-th-replace="common :: footerv5">
+		<div th:replace="common :: footerv5">
 		</div>
 		<!--=== End Footer v4 ===-->
 	</div><!--/wrapper-->

@@ -4,12 +4,16 @@ import java.util.Map;
 import java.util.Optional;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -35,6 +39,12 @@ public class AccountController {
 
     @Inject
     private MailService mailService;
+    
+    @GetMapping("register")
+    public String getRegister(Model model){
+		model.addAttribute("registerCommand", new ManagedUserVM());
+        return "register";
+    }
 
     /**
      * POST  /register : register the user.
@@ -42,8 +52,8 @@ public class AccountController {
      * @param managedUserVM the managed user View Model
      */
     @PostMapping("/register")
-    public String registerUser(@Valid @ModelAttribute("registerCommand")ManagedUserVM managedUserVM, 
-    		BindingResult bindingResult, Map<String, Object> model) {
+    public String registerUser(@ModelAttribute("registerCommand") @Validated ManagedUserVM managedUserVM, 
+    		BindingResult bindingResult, HttpServletRequest request) {
     	log.debug("userRepository:" + userRepository);
     	log.debug(managedUserVM.toString());
     	Optional<User> users = userRepository.findOneByLogin(managedUserVM.getLogin().toLowerCase());
@@ -51,7 +61,9 @@ public class AccountController {
     		bindingResult.rejectValue("login", "", "login already in use");
     	}else{
     		users = userRepository.findOneByEmail(managedUserVM.getEmail());
-    		bindingResult.rejectValue("email", "", "e-mail address already in use");
+    		if(users != null && users.isPresent()){
+    			bindingResult.rejectValue("email", "", "e-mail address already in use");
+    		}
     	}
     	if(bindingResult.hasErrors()){
     		return "register";
@@ -59,7 +71,18 @@ public class AccountController {
         User user = userService.createUser(managedUserVM.getLogin(), managedUserVM.getPassword(),
         managedUserVM.getFirstName(), managedUserVM.getLastName(), managedUserVM.getEmail().toLowerCase(),
         managedUserVM.getLangKey());
+        if(user != null){
+	        String baseUrl = request.getScheme() +        // "http"
+	                "://" +                                // "://"
+	                request.getServerName() +              // "myhost"
+	                ":" +                                  // ":"
+	                request.getServerPort() +              // "80"
+	                request.getContextPath();              // "/myContextPath" or "" if deployed in root context
+	
+	                mailService.sendActivationEmail(user, baseUrl);
+	       return "redirect:start";
+        }
         
-        return "redirect:start";
+        return "register";
     }
 }

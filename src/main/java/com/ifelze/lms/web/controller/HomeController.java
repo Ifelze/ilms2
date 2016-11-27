@@ -21,11 +21,6 @@ public class HomeController {
         return "start";
     }
 	
-	@GetMapping("register")
-    public String getRegister(Model model){
-		model.addAttribute("registerCommand", new ManagedUserVM());
-        return "register";
-    }
 	@RequestMapping("login")
     public String getLogin(Model model){
         return "login";
