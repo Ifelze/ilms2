@@ -17,7 +17,7 @@
 		<div class="breadcrumbs-v4">
 			<div class="container">
 				<span class="page-name">Log In</span>
-				<h1>Maecenas <span class="shop-green">enim</span> sapien</h1>
+				<h1>Your <span class="shop-green">Account</span> Login</h1>
 				<ul class="breadcrumb-v4-in">
 					<li><a href="index.html">Home</a></li>
 					<li class="active">Log In</li>
@@ -58,6 +58,9 @@
 
 					<div class="col-md-5">
 						<form id="sky-form1" class="log-reg-block sky-form" data-th-action="@{/login}" method="post">
+							<div th:if="${param.error}" class="alert alert-danger fade in">
+								<strong>Sorry!</strong> Invalid User Name And/Or Password.
+							</div>
 							<h2>Log in to your account</h2>
 							<section>
 								<label class="input login-input">
@@ -84,7 +87,7 @@
 									</label>
 								</div>
 								<div class="col-xs-6 text-right">
-									<a href="#">Forget your Password?</a>
+									<a href="/forgot_password">Forgot your Password?</a>
 								</div>
 							</div>
 							<input class="btn-u btn-u-sea-shop btn-block margin-bottom-20" type="submit">Log in</input>
@@ -104,7 +107,7 @@
 						</form>
 
 						<div class="margin-bottom-20"></div>
-						<p class="text-center">Don't have account yet? Learn more and <a href="shop-ui-register.html">Sign Up</a></p>
+						<p class="text-center">Don't have account yet? Learn more and <a href="register.html">Sign Up</a></p>
 					</div>
 				</div><!--/end row-->
 			</div><!--/end container-->

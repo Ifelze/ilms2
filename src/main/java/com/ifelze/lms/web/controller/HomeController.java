@@ -20,9 +20,4 @@ public class HomeController {
     public String getIndex(Model model){
         return "start";
     }
-	
-	@RequestMapping("login")
-    public String getLogin(Model model){
-        return "login";
-    }
 }

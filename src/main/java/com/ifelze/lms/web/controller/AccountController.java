@@ -9,6 +9,8 @@ import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,7 +18,10 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.codahale.metrics.annotation.Timed;
 import com.ifelze.lms.domain.User;
 import com.ifelze.lms.repository.UserRepository;
 import com.ifelze.lms.service.MailService;
@@ -45,13 +50,21 @@ public class AccountController {
 		model.addAttribute("registerCommand", new ManagedUserVM());
         return "register";
     }
-
+    @RequestMapping("login")
+    public String getLogin(Model model){
+        return "login";
+    }
+    @RequestMapping("forgot_password")
+    public String forgotPassword(Model model){
+        return "forgot_password";
+    }
     /**
      * POST  /register : register the user.
      *
      * @param managedUserVM the managed user View Model
      */
     @PostMapping("/register")
+    @Timed
     public String registerUser(@ModelAttribute("registerCommand") @Validated ManagedUserVM managedUserVM, 
     		BindingResult bindingResult, HttpServletRequest request) {
     	log.debug("userRepository:" + userRepository);
@@ -84,5 +97,22 @@ public class AccountController {
         }
         
         return "register";
+    }
+    /**
+     * GET  /activate : activate the registered user.
+     *
+     * @param key the activation key
+     * @return the ResponseEntity with status 200 (OK) and the activated user in body, or status 500 (Internal Server Error) if the user couldn't be activated
+     */
+    @GetMapping("/activate")
+    @Timed
+    public String activateAccount(@RequestParam(value = "key") String key, Model model) {
+    	Optional<User> users = userService.activateRegistration(key);
+    	if(users != null && users.isPresent()){
+    		model.addAttribute("activated", true);
+    	}else{
+    		model.addAttribute("activated", false);
+    	}
+    	return "activate";
     }
 }
