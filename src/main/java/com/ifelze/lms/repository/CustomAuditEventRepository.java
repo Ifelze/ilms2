@@ -65,7 +65,7 @@ public class CustomAuditEventRepository implements AuditEventRepository {
     public void add(AuditEvent event) {
         if (!AUTHORIZATION_FAILURE.equals(event.getType()) &&
             !ANONYMOUS_USER.equals(event.getPrincipal().toString())) {
-
+        	
             PersistentAuditEvent persistentAuditEvent = new PersistentAuditEvent();
             persistentAuditEvent.setPrincipal(event.getPrincipal());
             persistentAuditEvent.setAuditEventType(event.getType());

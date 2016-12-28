@@ -1,5 +1,22 @@
 package com.ifelze.lms.service;
 
+import java.time.LocalDate;
+import java.time.ZonedDateTime;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+
+import javax.inject.Inject;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.ifelze.lms.domain.Authority;
 import com.ifelze.lms.domain.User;
 import com.ifelze.lms.repository.AuthorityRepository;
@@ -10,17 +27,6 @@ import com.ifelze.lms.security.AuthoritiesConstants;
 import com.ifelze.lms.security.SecurityUtils;
 import com.ifelze.lms.service.util.RandomUtil;
 import com.ifelze.lms.web.rest.vm.ManagedUserVM;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.time.LocalDate;
-import java.time.ZonedDateTime;
-import javax.inject.Inject;
-import java.util.*;
 
 /**
  * Service class for managing users.
@@ -30,7 +36,7 @@ import java.util.*;
 public class UserService {
 
     private final Logger log = LoggerFactory.getLogger(UserService.class);
-
+    
     @Inject
     private SocialService socialService;
 
@@ -62,7 +68,7 @@ public class UserService {
                 return user;
             });
     }
-
+    
     public Optional<User> completePasswordReset(String newPassword, String key) {
        log.debug("Reset user password for reset key {}", key);
 
@@ -99,6 +105,7 @@ public class UserService {
         Set<Authority> authorities = new HashSet<>();
         String encryptedPassword = passwordEncoder.encode(password);
         newUser.setLogin(login);
+        
         // new user gets initially a generated password
         newUser.setPassword(encryptedPassword);
         newUser.setFirstName(firstName);
@@ -262,4 +269,18 @@ public class UserService {
             userSearchRepository.delete(user);
         }
     }
+    
+	public Optional<User>resendActivationLink(String email) {
+		 log.debug("Activating user for activation key {}", email);
+         return (Optional<User>) userRepository.findOneByEmail(email)
+             .map(user -> {
+                 // activate given user for the registration key.
+                 user.setActivated(true);
+                 user.setActivationKey(null);
+                 userRepository.save(user);
+                 userSearchRepository.save(user);
+                 log.debug("Activated user: {}", user);
+                 return user;
+             });
+	}
 }

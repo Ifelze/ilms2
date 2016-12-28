@@ -1,9 +1,12 @@
 package com.ifelze.lms.service;
 
-import com.ifelze.lms.config.JHipsterProperties;
-import com.ifelze.lms.domain.User;
+import java.util.Locale;
+
+import javax.inject.Inject;
+import javax.mail.internet.MimeMessage;
 
 import org.apache.commons.lang3.CharEncoding;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
@@ -13,11 +16,9 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring4.SpringTemplateEngine;
-import org.apache.commons.lang3.StringUtils;
 
-import javax.inject.Inject;
-import javax.mail.internet.MimeMessage;
-import java.util.Locale;
+import com.ifelze.lms.config.JHipsterProperties;
+import com.ifelze.lms.domain.User;
 
 /**
  * Service for sending e-mails.
@@ -72,7 +73,7 @@ public class MailService {
         Context context = new Context(locale);
         context.setVariable(USER, user);
         context.setVariable(BASE_URL, baseUrl);
-        String content = templateEngine.process("activationEmail", context);
+        String content = templateEngine.process("resendActivationEmail", context);
         String subject = messageSource.getMessage("email.activation.title", null, locale);
         sendEmail(user.getEmail(), subject, content, false, true);
     }
@@ -112,4 +113,16 @@ public class MailService {
         String subject = messageSource.getMessage("email.social.registration.title", null, locale);
         sendEmail(user.getEmail(), subject, content, false, true);
     }
+    
+    @Async
+	public void resendActivationEmail(User user, String baseUrl) {
+	    log.debug("Sending activation e-mail to '{}'", user.getEmail());
+        Locale locale = Locale.forLanguageTag(user.getLangKey());
+        Context context = new Context(locale);
+        context.setVariable(USER, user);
+        context.setVariable(BASE_URL, baseUrl);
+        String content = templateEngine.process("activationEmail", context);
+        String subject = messageSource.getMessage("email.activation.title", null, locale);
+        sendEmail(user.getEmail(), subject, content, false, true);		
+	}
 }

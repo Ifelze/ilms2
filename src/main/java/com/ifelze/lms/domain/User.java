@@ -32,8 +32,12 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+   
+//    @NotNull
+//    private String captcha;
+//    
 
-    @NotNull
+	@NotNull
     @Pattern(regexp = Constants.LOGIN_REGEX)
     @Size(min = 1, max = 100)
     @Column(length = 100, unique = true, nullable = false)
@@ -103,6 +107,14 @@ public class User extends AbstractAuditingEntity implements Serializable {
     public String getLogin() {
         return login;
     }
+
+//    public String getCaptcha() {
+//    	return captcha;
+//    }
+//    
+//    public void setCaptcha(String captcha) {
+//    	this.captcha = captcha;
+//    }
 
     //Lowercase the login before saving it in database
     public void setLogin(String login) {

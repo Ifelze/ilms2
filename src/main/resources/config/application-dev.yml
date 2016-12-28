@@ -27,7 +27,7 @@ spring:
         url: jdbc:mysql://localhost:3306/ilms2?useUnicode=true&characterEncoding=utf8&useSSL=false
         name:
         username: root
-        password: mysql1234
+        password: mysql12345
         hikari:
             data-source-properties:
                 cachePrepStmts: true
@@ -53,6 +53,7 @@ spring:
                   data: target/elasticsearch/data
     mail:
         host: smtp.gmail.com
+        smtp.ssl.trust: smtp.gmail.com
         port: 587
         username: ifelzes@gmail.com
         password: ifelzes1Team
@@ -69,7 +70,7 @@ liquibase:
     contexts: dev
 
 server:
-    port: 8080
+    port: 8281
 
 # ===================================================================
 # JHipster specific properties

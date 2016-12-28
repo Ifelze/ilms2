@@ -37,15 +37,21 @@ public class AccountController {
 
     @Inject
     private UserService userService;
-
+    
     @Inject
     private MailService mailService;
+
     
     @GetMapping("register")
     public String getRegister(Model model){
 		model.addAttribute("registerCommand", new ManagedUserVM());
         return "register";
     }
+    @RequestMapping("resend_activation_success")
+    public String getResendActivationSuccessfulLink(Model model){
+        return "resend_activation_success";
+    }
+    
     @RequestMapping("login")
     public String getLogin(Model model){
         return "login";
@@ -53,6 +59,12 @@ public class AccountController {
     @RequestMapping("forgot_password")
     public String forgotPassword(Model model){
         return "forgot_password";
+    }
+    @RequestMapping("resend_activation_link")
+    public String resendApplicaionLink(Model model)
+    {
+    	model.addAttribute("resendActivationCommond", new ManagedUserVM());
+    	return "resend_activation_link";
     }
     /**
      * POST  /register : register the user.
@@ -62,25 +74,32 @@ public class AccountController {
     @PostMapping("/register")
     @Timed
     public String registerUser(@ModelAttribute("registerCommand") @Validated ManagedUserVM managedUserVM, 
-    		BindingResult bindingResult, HttpServletRequest request) {
-    	log.debug("userRepository:" + userRepository);
-    	log.debug(managedUserVM.toString());
-    	Optional<User> users = userRepository.findOneByLogin(managedUserVM.getLogin().toLowerCase());
-    	if(users != null && users.isPresent()){
-    		bindingResult.rejectValue("login", "", "login already in use");
-    	}else{
-    		users = userRepository.findOneByEmail(managedUserVM.getEmail());
-    		if(users != null && users.isPresent()){
-    			bindingResult.rejectValue("email", "", "e-mail address already in use");
-    		}
-    	}
-    	if(bindingResult.hasErrors()){
-    		return "register";
-    	}
+    		BindingResult bindingResult, HttpServletRequest request) 
+    {	
+		log.debug("userRepository:" + userRepository);
+		log.debug(managedUserVM.toString());
+		Optional<User> users = userRepository.findOneByLogin(managedUserVM.getLogin().toLowerCase());
+		if (users != null && users.isPresent())
+		{
+			bindingResult.rejectValue("login", "", "login already in use");
+		}
+		else
+		{
+			users = userRepository.findOneByEmail(managedUserVM.getEmail());
+			if (users != null && users.isPresent())
+			{
+				bindingResult.rejectValue("email", "", "e-mail address already in use");
+			}
+		}
+		if (bindingResult.hasErrors())
+		{
+			return "register";
+		}
         User user = userService.createUser(managedUserVM.getLogin(), managedUserVM.getPassword(),
         managedUserVM.getFirstName(), managedUserVM.getLastName(), managedUserVM.getEmail().toLowerCase(),
         managedUserVM.getLangKey());
-        if(user != null){
+        if(user != null)
+        {
 	        String baseUrl = request.getScheme() +        // "http"
 	                "://" +                                // "://"
 	                request.getServerName() +              // "myhost"
@@ -91,7 +110,6 @@ public class AccountController {
 	                mailService.sendActivationEmail(user, baseUrl);
 	       return "redirect:start";
         }
-        
         return "register";
     }
     /**
@@ -102,13 +120,58 @@ public class AccountController {
      */
     @GetMapping("/activate")
     @Timed
-    public String activateAccount(@RequestParam(value = "key") String key, Model model) {
+    public String activateAccount(@RequestParam(value = "key") String key, Model model)
+    {
     	Optional<User> users = userService.activateRegistration(key);
-    	if(users != null && users.isPresent()){
+    	if(users != null && users.isPresent())
+    	{
     		model.addAttribute("activated", true);
-    	}else{
+    	}
+    	else
+    	{
     		model.addAttribute("activated", false);
     	}
     	return "activate";
     }
+  
+    @PostMapping("/resend_activation_link")
+    @Timed
+    public String resendActivationKey(@ModelAttribute("resendActivationCommond") @Validated ManagedUserVM managedUserVM, 
+    		BindingResult bindingResult, HttpServletRequest request )  
+	{	
+    	String emailid=request.getParameter("email");
+    	log.debug("userRepository:" + userRepository);
+    	log.debug(managedUserVM.toString());
+		Optional<User> users = userRepository.findOneByEmail(managedUserVM.getEmail());
+		if (users != null && users.isPresent())
+    	{
+   		    User user=users.get();   		
+   		    String existingEmailid=user.getEmail();
+			if (emailid.equals(existingEmailid))
+			{
+				String activationKey = user.getActivationKey();
+				if (activationKey == null)
+				{
+			    	bindingResult.rejectValue("email", "", "This user is already activated. Please enter valid email");
+					return "resend_activation_link";
+				} else {
+					if (users != null) {
+						String baseUrl = request.getScheme() + // "http"
+								"://" + // "://"
+								request.getServerName() + // "myhost"
+								":" + // ":"
+								request.getServerPort() + // "80"
+								request.getContextPath(); // "/myContextPath" or
+															// "" if
+															// deployed in root
+															// context
+						mailService.resendActivationEmail(users.get(), baseUrl);
+						return "resend_activation_success";
+					}
+				}
+			}
+    	}
+    	bindingResult.rejectValue("email", "", "please enter registerd e-mailid");
+    	return "resend_activation_link";
+	}    
 }

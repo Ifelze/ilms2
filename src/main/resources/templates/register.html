@@ -3,10 +3,18 @@
 <!--[if IE 9]> <html lang="en" class="ie9" xmlns:th="http://www.thymeleaf.org"> <![endif]-->
 <!--[if !IE]><!--> <html lang="en" xmlns:th="http://www.thymeleaf.org"> <!--<![endif]-->
 <head th:replace="common :: head">
+<style>
+.error {
+    color: red;
+}
+</style>
 </head>
 
 <body class="header-fixed">
 
+	 <td colspan="2"><font color="red"><c:out value="${message}"></c:out></font></td>
+	
+	
 	<div class="wrapper">
 		<!--=== Header v5 ===-->
 		<div th:replace="common :: headerv5">
@@ -109,9 +117,31 @@
 								<i></i>
 								I have read agreed with the <a href="/terms_conditions">terms &amp; conditions</a>
 							</label>
+							
+							<section>
+								<label class="input">
+									<div>
+										<img id="captcha_id" name="imgCaptcha" src="refresh1.png"></img>
+									</div>
+								</label>
+								<td align="left"><a href="javascript:;" title="change captcha text"
+                    		    onclick="document.getElementById('captcha_id').src = 'assets/img/captcha.jpg?' + Math.random();  return false">
+                          		  <img src="assets/img/refresh1.png" />
+                   			 </a></td>
+															
+								<tr>
+									<td colspan="2"><form:errors path="captcha" cssClass="error" /></td>
+ 				               </tr>
+ 								<tr>
+								<br></br>
+                   	 				<td>Enter above Image text</td>
+                    			   <td><input type="text" th:field="*{login}" placeholder="captcha" class="form-control"></input></td>
+               				 	</tr>
+							</section>
+							
 							<button class="btn-u btn-u-sea-shop btn-block margin-bottom-20" type="submit">Create Account</button>
 						</form>
-
+						
 						<div class="margin-bottom-20"></div>
 						<p class="text-center">Already you have an account? <a href="login.html">Sign In</a></p>
 					</div>
