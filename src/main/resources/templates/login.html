@@ -57,7 +57,7 @@
 					</div>
 
 					<div class="col-md-5">
-						<form id="sky-form1" class="log-reg-block sky-form" data-th-action="@{/login}" method="post">
+						<form id="sky-form1" class="log-reg-block sky-form" data-th-action="@{/login}" method="post" th:object="${loginCommand}">
 							<div th:if="${param.error}" class="alert alert-danger fade in">
 								<strong>Sorry!</strong> Invalid User Name And/Or Password.
 							</div>

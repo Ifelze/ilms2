@@ -199,6 +199,8 @@ public class UserService {
             log.debug("Deleted User: {}", u);
         });
     }
+    
+    
 
     public void changePassword(String password) {
         userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).ifPresent(u -> {

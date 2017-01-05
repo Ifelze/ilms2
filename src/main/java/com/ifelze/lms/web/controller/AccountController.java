@@ -1,9 +1,11 @@
 package com.ifelze.lms.web.controller;
 
+import java.io.IOException;
 import java.util.Optional;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,7 +37,7 @@ public class AccountController {
     @Inject
     private UserRepository userRepository;
 
-    @Inject
+   @Inject
     private UserService userService;
     
     @Inject
@@ -60,57 +62,54 @@ public class AccountController {
     public String forgotPassword(Model model){
         return "forgot_password";
     }
-    @RequestMapping("resend_activation_link")
-    public String resendApplicaionLink(Model model)
-    {
-    	model.addAttribute("resendActivationCommond", new ManagedUserVM());
-    	return "resend_activation_link";
-    }
+
+	@RequestMapping("resend_activation_link")
+	public String resendApplicaionLink(Model model) {
+		model.addAttribute("resendActivationCommond", new ManagedUserVM());
+		return "resend_activation_link";
+	}
     /**
      * POST  /register : register the user.
      *
      * @param managedUserVM the managed user View Model
+     * @throws IOException 
      */
-    @PostMapping("/register")
-    @Timed
-    public String registerUser(@ModelAttribute("registerCommand") @Validated ManagedUserVM managedUserVM, 
-    		BindingResult bindingResult, HttpServletRequest request) 
-    {	
+	@PostMapping("/register")
+	@Timed
+	public String registerUser(@ModelAttribute("registerCommand") @Validated ManagedUserVM managedUserVM,
+			BindingResult bindingResult, HttpServletRequest request, Model model, HttpSession session)
+			throws IOException {
 		log.debug("userRepository:" + userRepository);
 		log.debug(managedUserVM.toString());
 		Optional<User> users = userRepository.findOneByLogin(managedUserVM.getLogin().toLowerCase());
-		if (users != null && users.isPresent())
-		{
+		if (users != null && users.isPresent()) {
 			bindingResult.rejectValue("login", "", "login already in use");
-		}
-		else
-		{
+		} else {
 			users = userRepository.findOneByEmail(managedUserVM.getEmail());
-			if (users != null && users.isPresent())
-			{
+			if (users != null && users.isPresent()) {
 				bindingResult.rejectValue("email", "", "e-mail address already in use");
 			}
 		}
-		if (bindingResult.hasErrors())
-		{
+		if (bindingResult.hasErrors()) {
 			return "register";
 		}
         User user = userService.createUser(managedUserVM.getLogin(), managedUserVM.getPassword(),
         managedUserVM.getFirstName(), managedUserVM.getLastName(), managedUserVM.getEmail().toLowerCase(),
         managedUserVM.getLangKey());
-        if(user != null)
-        {
-	        String baseUrl = request.getScheme() +        // "http"
-	                "://" +                                // "://"
-	                request.getServerName() +              // "myhost"
-	                ":" +                                  // ":"
-	                request.getServerPort() +              // "80"
-	                request.getContextPath();              // "/myContextPath" or "" if deployed in root context
-	
-	                mailService.sendActivationEmail(user, baseUrl);
-	       return "redirect:start";
-        }
-        return "register";
+
+		if (user != null) {
+			String baseUrl = request.getScheme() + // "http"
+					"://" + // "://"
+					request.getServerName() + // "myhost"
+					":" + // ":"
+					request.getServerPort() + // "80"
+					request.getContextPath(); // "/myContextPath" or "" if
+												// deployed in root context
+
+			mailService.sendActivationEmail(user, baseUrl);
+			return "redirect:start";
+		}
+		return "register";
     }
     /**
      * GET  /activate : activate the registered user.

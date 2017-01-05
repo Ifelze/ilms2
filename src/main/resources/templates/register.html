@@ -34,7 +34,7 @@
 		</div>
 		<!--=== End Breadcrumbs v4 ===-->
 
-		<!--=== Registre ===-->
+		<!--=== Register ===-->
 		<div class="log-reg-v3 content-md margin-bottom-30">
 			<div class="container">
 				<div class="row">
@@ -70,6 +70,9 @@
 					<div class="col-md-5">
 						<form id="sky-form4" class="log-reg-block sky-form" method="post" th:action="@{/register}" th:object="${registerCommand}">
 							<h2>Create New Account</h2>
+<!-- 							<tr> -->
+<!--                    				 <td colspan="2"><font color="red"><c:out value="${message}"></c:out></font></td> -->
+<!--                 			</tr> -->
 							<ul th:if="${#fields.hasErrors('*')}">
 							  <li th:each="err : ${#fields.errors('*')}" th:text="${err}">Input is incorrect</li>
 							</ul>
@@ -117,28 +120,6 @@
 								<i></i>
 								I have read agreed with the <a href="/terms_conditions">terms &amp; conditions</a>
 							</label>
-							
-							<section>
-								<label class="input">
-									<div>
-										<img id="captcha_id" name="imgCaptcha" src="refresh1.png"></img>
-									</div>
-								</label>
-								<td align="left"><a href="javascript:;" title="change captcha text"
-                    		    onclick="document.getElementById('captcha_id').src = 'assets/img/captcha.jpg?' + Math.random();  return false">
-                          		  <img src="assets/img/refresh1.png" />
-                   			 </a></td>
-															
-								<tr>
-									<td colspan="2"><form:errors path="captcha" cssClass="error" /></td>
- 				               </tr>
- 								<tr>
-								<br></br>
-                   	 				<td>Enter above Image text</td>
-                    			   <td><input type="text" th:field="*{login}" placeholder="captcha" class="form-control"></input></td>
-               				 	</tr>
-							</section>
-							
 							<button class="btn-u btn-u-sea-shop btn-block margin-bottom-20" type="submit">Create Account</button>
 						</form>
 						

@@ -35,6 +35,7 @@ public class UserDTO {
     @Size(min = 2, max = 5)
     private String langKey;
 
+    
     private Set<String> authorities;
 
     public UserDTO() {
