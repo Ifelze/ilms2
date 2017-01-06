@@ -8,6 +8,12 @@
     color: red;
 }
 </style>
+
+		<p style="color:red;">${errorString}</p>
+
+
+<!-- reCAPTCHA Libary -->
+<script src='https://www.google.com/recaptcha/api.js?hl=en'></script>
 </head>
 
 <body class="header-fixed">
@@ -66,7 +72,6 @@
 							<img class="img-responsive" src="assets/img/map.png" alt=""></img>
 						</div>
 					</div>
-
 					<div class="col-md-5">
 						<form id="sky-form4" class="log-reg-block sky-form" method="post" th:action="@{/register}" th:object="${registerCommand}">
 							<h2>Create New Account</h2>
@@ -95,7 +100,7 @@
 								</div>
 								<section>
 									<label class="input">
-										<input type="text" th:field="*{login}" placeholder="Username" class="form-control"></input>
+										<input type="text" th:field="*{login}" placeholder="Username" name="username" class="form-control"></input>
 									</label>
 								</section>
 								<section>
@@ -105,9 +110,12 @@
 								</section>
 								<section>
 									<label class="input">
-										<input type="password" th:field="*{password}" placeholder="Password" id="password" class="form-control"></input>
+										<input type="password" th:field="*{password}" name="password" placeholder="Password" id="password" class="form-control"></input>
 									</label>
 								</section>
+								<!-- reCAPTCHA -->
+							      <div class="g-recaptcha"
+          								data-sitekey="6LfPzxAUAAAAACOYezS4PXS0uY5OyzTzkxvgfcN0"></div>
 							</div>
 
 							<label class="checkbox margin-bottom-10">
@@ -120,6 +128,11 @@
 								<i></i>
 								I have read agreed with the <a href="/terms_conditions">terms &amp; conditions</a>
 							</label>
+							 
+							 <!-- reCAPTCHA -->
+      						<div class="g-recaptcha"
+         						 data-sitekey="6LfPzxAUAAAAACOYezS4PXS0uY5OyzTzkxvgfcN0"></div>
+         						 
 							<button class="btn-u btn-u-sea-shop btn-block margin-bottom-20" type="submit">Create Account</button>
 						</form>
 						
